@@ -22,7 +22,10 @@
       .card-meta { margin-top: 10px; display: flex; justify-content: space-between; align-items: baseline; }
       .card-number { font-size: 11px; color: #777777; }
       .card-tag { font-size: 10px; color: #b0b0b0; text-transform: uppercase; letter-spacing: 0.08em; }
-      @media (max-width: 640px) { main { padding: 16px; } .gallery { gap: 16px; } .card:hover { transform: scale(1.02); } }
+      .go-to-top { position: fixed; bottom: 24px; right: 24px; width: 48px; height: 48px; background: #ffffff; border: 1px solid #eeeeee; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); transition: transform 0.2s ease, box-shadow 0.2s ease; z-index: 1000; }
+      .go-to-top:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+      .go-to-top svg { width: 20px; height: 20px; stroke: #666666; }
+      @media (max-width: 640px) { main { padding: 16px; } .gallery { gap: 16px; } .card:hover { transform: scale(1.02); } .go-to-top { bottom: 16px; right: 16px; width: 44px; height: 44px; } }
     </style>
   </head>
   <body>
@@ -28625,5 +28628,10 @@
         </div>
       </section>
     </main>
+    <button class="go-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Go to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 15l-6-6-6 6"/>
+      </svg>
+    </button>
   </body>
 </html>

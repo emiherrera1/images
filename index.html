@@ -24,10 +24,17 @@
       .card-meta { margin-top: 10px; display: flex; justify-content: space-between; align-items: baseline; }
       .card-number { font-size: 11px; color: #777777; }
       .card-tag { font-size: 10px; color: #b0b0b0; text-transform: uppercase; letter-spacing: 0.08em; }
+      .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); z-index: 2000; align-items: center; justify-content: center; padding: 40px; }
+      .modal.active { display: flex; }
+      .modal-content { position: relative; max-width: 90vw; max-height: 90vh; }
+      .modal-content img { max-width: 100%; max-height: 90vh; object-fit: contain; }
+      .modal-close { position: absolute; top: -40px; right: 0; width: 32px; height: 32px; background: #ffffff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease; }
+      .modal-close:hover { transform: scale(1.1); }
+      .modal-close svg { width: 18px; height: 18px; stroke: #111111; }
       .go-to-top { position: fixed; bottom: 24px; right: 24px; width: 48px; height: 48px; background: #ffffff; border: 1px solid #eeeeee; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); transition: transform 0.2s ease, box-shadow 0.2s ease; z-index: 1000; }
       .go-to-top:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
       .go-to-top svg { width: 20px; height: 20px; stroke: #666666; }
-      @media (max-width: 640px) { main { padding: 16px; } .gallery { gap: 16px; } .card:hover { transform: scale(1.02); } .go-to-top { bottom: 16px; right: 16px; width: 44px; height: 44px; } .filters { padding: 16px; } }
+      @media (max-width: 640px) { main { padding: 16px; } .gallery { gap: 16px; } .card:hover { transform: scale(1.02); } .go-to-top { bottom: 16px; right: 16px; width: 44px; height: 44px; } .filters { padding: 16px; } .modal { padding: 20px; } .modal-close { top: -30px; } }
     </style>
   </head>
   <body>
@@ -28625,6 +28632,16 @@
         </article>
       </section>
     </main>
+    <div class="modal" id="imageModal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+        <img id="modalImage" src="" alt="" />
+      </div>
+    </div>
     <button class="go-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Go to top">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18 15l-6-6-6 6"/>
@@ -28649,6 +28666,38 @@
             }
           });
         });
+      });
+
+      function openModal(imgSrc) {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        modalImg.src = imgSrc;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('.card-img img').forEach(img => {
+        img.addEventListener('click', () => {
+          openModal(img.src);
+        });
+      });
+
+      document.getElementById('imageModal').addEventListener('click', (e) => {
+        if (e.target.id === 'imageModal') {
+          closeModal();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeModal();
+        }
       });
     </script>
   </body>
